@@ -164,6 +164,10 @@ const routes = [
       },
     ],
   },
+  // {
+  //   path: "/:pathMatch(.*)*",
+  //   component: () => import("../pages/[...all].vue"),
+  // },
 ];
 
 const router = createRouter({
