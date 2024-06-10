@@ -1,4 +1,4 @@
-import { fileURLToPath, URL } from "node:url";
+import { fileURLToPath, URL } from "url";
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
@@ -8,7 +8,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@images': fileURLToPath(new URL('./src/assets/img', import.meta.url)),
+      '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
+      '@scss': fileURLToPath(new URL('./src/assets/scss', import.meta.url)),
       '@layouts': fileURLToPath(new URL('./src/views/layouts', import.meta.url)),
       '@components': fileURLToPath(new URL('./src/views/components', import.meta.url)),
       '@pages': fileURLToPath(new URL('./src/views/pages', import.meta.url)),

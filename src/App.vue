@@ -1,9 +1,14 @@
 <script setup>
+import Header from '@layouts/Header.vue'
+
 </script>
 
 <template>
-  <router-view></router-view>
+  <div class="container background-primary px-4">
+    <Header></Header>
+    <router-view></router-view>
+  </div>
 </template>
 
-<style scoped>
+<style lang="scss">
 </style>

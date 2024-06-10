@@ -1,0 +1,76 @@
+#header {
+  min-height: 84px;
+  .logo {
+    background-color: #202020;
+    img {
+      object-fit: cover;
+      height: 60px;
+    }
+  }
+  .search {
+    font-size: 1rem;
+    .input-search {
+      background-color: #18181b;
+      border: 1px solid #95a5a6;
+      color: rgb(229, 231, 235);
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+      &:focus {
+        border-color: rgba(149, 165, 166, 0.5);
+      }
+    }
+    .icon-search {
+      color: #fff;
+    }
+    .search-result {
+      background-color: #27272a;
+      .list-item {
+        .item {
+          height: 68px;
+          img {
+            width: 60px;
+            height: 64px;
+            object-fit: cover;
+          }
+          .movie-info {
+            flex: 1;
+          }
+        }
+      }
+    }
+  }
+  .account {
+    .v-enter-active,
+    .v-leave-active {
+      transition: opacity 0.5s ease;
+    }
+
+    .v-enter-from,
+    .v-leave-to {
+      opacity: 0;
+    }
+    .avatar {
+      img {
+        height: 40px;
+        width: 40px;
+      }
+    }
+    .user-dropdown {
+      z-index: 9999;
+      width: 140px;
+      right: 0;
+      background-color: #27272a;
+      color: #d4d4d8;
+      .user-menu {
+        li {
+          &:hover {
+            background-color: #bdc3c7;
+          }
+          a {
+            color: rgb(228, 228, 231);
+          }
+        }
+      }
+    }
+  }
+}

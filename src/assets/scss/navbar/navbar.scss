@@ -1,0 +1,68 @@
+#navbar {
+  ul {
+    li {
+      a,
+      span {
+        color: #d4d4d8;
+      }
+      &:hover > a {
+        color: rgb(217, 138, 94) !important;
+      }
+    }
+    .genres {
+      user-select: none;
+      cursor: pointer;
+      &:hover > span {
+        color: rgb(161, 171, 170) !important;
+      }
+      &::after {
+        content: "";
+        height: 20px;
+        left: 0;
+        position: absolute;
+        top: 30px;
+        width: 100%;
+      }
+      &:hover > .list-genres {
+        display: flex;
+      }
+      .list-genres {
+        display: none;
+        background-color: #09090b;
+        top: 50px;
+        width: 600px;
+        & > .genre-item:hover {
+          color: rgb(217, 138, 94) !important;
+        }
+      }
+    }
+
+    .countries {
+        user-select: none;
+        cursor: pointer;
+        &:hover > span {
+          color: rgb(161, 171, 170) !important;
+        }
+        &::after {
+          content: "";
+          height: 20px;
+          left: 0;
+          position: absolute;
+          top: 30px;
+          width: 100%;
+        }
+        &:hover > .list-countries {
+          display: flex;
+        }
+        .list-countries {
+          display: none;
+          background-color: #09090b;
+          top: 50px;
+          width: 600px;
+          & > .country-item:hover {
+            color: rgb(217, 138, 94) !important;
+          }
+        }
+      }
+  }
+}
