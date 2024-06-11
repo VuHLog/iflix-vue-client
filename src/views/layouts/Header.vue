@@ -74,11 +74,10 @@ watch(searchText, () => {
         >
           <ul class="list-item pt-2 m-0" v-if="moviesSearched.length !== 0">
             <template v-for="movie in moviesSearched" :key="movie.id">
-              <router-link to="" class="text-decoration-none">
-                <li class="item d-flex align-item mb-2 border-b-custom">
+              <router-link to="" class="d-block text-decoration-none pb-2 border-b-custom">
+                <li class="item d-flex align-item mb-2">
                   <div>
                     <img class="image-poster" :src="movie.imageUrl" alt="" />
-                    <font-awesome-icon :icon="['fas', 'angle-down']" />
                   </div>
                   <div
                     class="movie-info text-gray d-flex flex-column justify-center"

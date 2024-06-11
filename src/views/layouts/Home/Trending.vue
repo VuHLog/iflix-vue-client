@@ -9,7 +9,7 @@ const { proxy } = getCurrentInstance();
 const moviesTrending = ref([]);
 onMounted(() => {
   proxy.$api
-    .get("/api/movies/trending")
+    .get("/api/movies/trending?top=5")
     .then((res) => {
       moviesTrending.value = res.result;
     })
@@ -29,6 +29,7 @@ onMounted(() => {
           :year="movie.releaseYear"
           :name="movie.name"
           :src="movie.imageUrl"
+          :lang="movie.lang"
         ></VCard>
       </Slide>
 

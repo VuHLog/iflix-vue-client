@@ -30,6 +30,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  lang: {
+    type: String,
+    required: true,
+  },
   src: {
     type: String,
     required: true,
@@ -42,11 +46,11 @@ const heightImage = ref(props.heightImage + "px");
 <template>
   <div
     id="card"
-    class="position-relative rounded-lg d-inline-block overflow-hidden"
+    class="rounded-lg d-inline-block overflow-hidden"
     :style="{ width: width }"
   >
-    <router-link class="text-decoration-none" to="">
-      <div class="poster">
+    <router-link class="d-block position-relative text-decoration-none w-100" to="">
+      <div class="poster ">
         <img
           class="rounded-lg w-100"
           :style="{ height: heightImage, width: width }"
@@ -60,7 +64,7 @@ const heightImage = ref(props.heightImage + "px");
         <span>{{
           props.episodeCurrent === props.episodeTotal
             ? "Full "
-            : "Tập " + episodeCurrent + " Vietsub"
+            : "Tập " + episodeCurrent + " "+props.lang
         }}</span>
       </div>
       <div
@@ -75,7 +79,7 @@ const heightImage = ref(props.heightImage + "px");
         style="background-color: #181818"
         v-if="!props.isTrending"
       >
-        <h3 class="name font-weight-bold m-0 pt-1">{{ props.name }}</h3>
+        <h3 class="name font-weight-bold m-0 pt-1 capitalize truncate">{{ props.name }}</h3>
       </div>
     </router-link>
   </div>
@@ -88,7 +92,7 @@ const heightImage = ref(props.heightImage + "px");
       transform: scale(1.1);
     }
     transform: scale(1);
-    transition: scale cubic-bezier(0.075, 0.82, 0.165, 1) ease-in;
+    transition: all 0.7s ease;
     img {
       object-fit: cover;
     }
@@ -111,7 +115,7 @@ const heightImage = ref(props.heightImage + "px");
   }
   .movie-info {
     color: #f9fafb;
-    top: 70%;
+    bottom: 0;
     left: 0;
     .name {
       font-size: 15px;
