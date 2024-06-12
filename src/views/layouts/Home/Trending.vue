@@ -30,6 +30,7 @@ onMounted(() => {
           :name="movie.name"
           :src="movie.imageUrl"
           :lang="movie.lang"
+          :slug="movie.slug"
         ></VCard>
       </Slide>
 

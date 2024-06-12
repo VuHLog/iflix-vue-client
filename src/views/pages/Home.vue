@@ -22,11 +22,11 @@ onMounted(() => {
     .catch((error) => console.log(error));
 });
 
-watch(dramaClicked, ()=>{
-  if(dramaClicked.value){
+watch(dramaClicked, () => {
+  if (dramaClicked.value) {
     loadDrama();
-  }else loadSingleMovie();
-})
+  } else loadSingleMovie();
+});
 
 async function loadDrama() {
   await proxy.$api
@@ -45,7 +45,6 @@ async function loadSingleMovie() {
     })
     .catch((error) => console.log(error));
 }
-
 </script>
 
 <template>
@@ -58,22 +57,26 @@ async function loadSingleMovie() {
             <div class="d-flex pb-2 gc-3">
               <span
                 class="text-gray py-1 px-3 rounded-sm cursor-pointer"
-                :class="{active: dramaClicked}"
-                @click="dramaClicked=true"
+                :class="{ active: dramaClicked }"
+                @click="dramaClicked = true"
               >
                 <h2 class="text-16 m-0">Phim Bộ Mới</h2>
               </span>
               <span
                 class="text-gray py-1 px-3 rounded-sm cursor-pointer"
-                :class="{active: !dramaClicked}"
-                @click="dramaClicked=false"
+                :class="{ active: !dramaClicked }"
+                @click="dramaClicked = false"
               >
                 <h2 class="text-16 m-0">Phim Lẻ Mới</h2>
               </span>
             </div>
             <div class="pt-3">
               <div class="row gr-3 gc-4">
-                <template v-for="drama in listDrama" :key="drama.id" v-if="dramaClicked">
+                <template
+                  v-for="drama in listDrama"
+                  :key="drama.id"
+                  v-if="dramaClicked"
+                >
                   <VCard
                     :heightImage="240"
                     :isTrending="false"
@@ -83,9 +86,14 @@ async function loadSingleMovie() {
                     :name="drama.name"
                     :src="drama.imageUrl"
                     :lang="drama.lang"
+                    :slug="drama.slug"
                   ></VCard>
                 </template>
-                <template v-for="movie in singleMovie" :key="movie.id" v-if="!dramaClicked">
+                <template
+                  v-for="movie in singleMovie"
+                  :key="movie.id"
+                  v-if="!dramaClicked"
+                >
                   <VCard
                     :heightImage="240"
                     :isTrending="false"
@@ -95,6 +103,7 @@ async function loadSingleMovie() {
                     :name="movie.name"
                     :src="movie.imageUrl"
                     :lang="movie.lang"
+                    :slug="movie.slug"
                   ></VCard>
                 </template>
               </div>
@@ -113,9 +122,7 @@ async function loadSingleMovie() {
         <div class="py-2 mt-4">
           <div class="position-relative">
             <div class="d-flex pb-2 gc-3">
-              <span class="text-gray py-1 px-3 bg-brown rounded-sm">
-                <h2 class="text-16 m-0">Phim Đề Cử</h2>
-              </span>
+              <h2 class="text-trending m-0 text-gray pl-2">Phim đề cử</h2>
             </div>
             <div class="pt-3">
               <div class="row gr-3 gc-4">
@@ -132,6 +139,7 @@ async function loadSingleMovie() {
                     :name="nominated.name"
                     :src="nominated.imageUrl"
                     :lang="nominated.lang"
+                    :slug="nominated.slug"
                   ></VCard>
                 </template>
               </div>

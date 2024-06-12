@@ -1,10 +1,17 @@
 <script setup>
-import { ref, getCurrentInstance, onMounted } from "vue";
+import { ref, getCurrentInstance, onMounted,computed } from "vue";
+import {useBaseStore} from "@/store/index.js"
 
 const { proxy } = getCurrentInstance();
+const store = useBaseStore();
 
+
+const showTopViews = computed(() => store.showTopViews);
 const listTopViews = ref([]);
+const showAboutToShow = computed(() => store.showAboutToShow);
 const listAboutToShow = ref([]);
+const showReleaseYear = computed(() => store.showReleaseYear);
+
 
 onMounted(() => {
   proxy.$api.get("/api/movies/topViews").then((res) => {
@@ -20,7 +27,7 @@ onMounted(() => {
 <template>
   <aside>
     <div class="pt-4">
-      <div class="d-flex flex-wrap">
+      <div class="d-flex flex-wrap" v-if="showTopViews">
         <div class="w-100">
           <span
             class="text-gray-200 text-16 font-weight-bold border-b-custom w-100 d-block pb-2"
@@ -31,8 +38,8 @@ onMounted(() => {
             <div class="px-2 py-3">
               <template v-for="(movie, index) in listTopViews" :key="movie.id">
                 <router-link
-                  class="d-flex align-center text-decoration-none pb-2"
-                  to=""
+                  class="d-flex align-center text-decoration-none pb-2 transition-all-ease hover-scale-105"
+                  :to="'/xem-phim'+movie.slug"
                 >
                   <div class="col-2">
                     <div class="text-gray-200 text-14 font-medium text-14">
@@ -58,7 +65,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div class="pt-2">
+    <div class="pt-2" v-if="showReleaseYear">
       <div class="w-100">
         <div
           class="text-gray-200 text-md font-medium border-b-custom w-100 pb-2"
@@ -111,7 +118,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div class="pt-6">
+    <div class="pt-6" v-if="showAboutToShow">
       <div class="w-100">
         <div
           class="text-gray-200 text-md font-medium border-b-custom w-100 pb-2 mb-2"

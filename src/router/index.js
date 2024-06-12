@@ -3,6 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { useBaseStore } from "@/store/index.js";
 import SignIn from "@pages/Signin.vue"
 import Home from "@pages/Home.vue"
+import WatchMovie from "@pages/WatchMovie.vue"
 
 const routes = [
   {
@@ -14,6 +15,11 @@ const routes = [
         path: "/home",
         name: "Home",
         component: Home,
+      },
+      {
+        path: "/xem-phim/:slugMovie",
+        name: "Xem Phim",
+        component: WatchMovie,
       },
     ]
   },

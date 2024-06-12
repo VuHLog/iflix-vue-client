@@ -3,9 +3,9 @@ import { defineStore } from "pinia";
 export const useBaseStore = defineStore("base", {
   state: () => {
     return {
-      showSidenav: true,
-      showNavbar: true,
-      showFooter: true,
+      showTopViews: true,
+      showAboutToShow: true,
+      showReleaseYear : true,
       isLoggedIn: false,
       roles: "",
       username:"",

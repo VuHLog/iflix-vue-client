@@ -38,6 +38,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  slug:{
+    type: String,
+    required: true,
+  }
 });
 
 const width = ref(props.width + "px");
@@ -49,7 +53,7 @@ const heightImage = ref(props.heightImage + "px");
     class="rounded-lg d-inline-block overflow-hidden"
     :style="{ width: width }"
   >
-    <router-link class="d-block position-relative text-decoration-none w-100" to="">
+    <router-link class="d-block position-relative text-decoration-none w-100" :to="'/xem-phim'+props.slug">
       <div class="poster ">
         <img
           class="rounded-lg w-100"
@@ -64,7 +68,7 @@ const heightImage = ref(props.heightImage + "px");
         <span>{{
           props.episodeCurrent === props.episodeTotal
             ? "Full "
-            : "Tập " + episodeCurrent + " "+props.lang
+            : "Tập " + props.episodeCurrent + " "+props.lang
         }}</span>
       </div>
       <div
