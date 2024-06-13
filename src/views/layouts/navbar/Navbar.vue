@@ -43,7 +43,7 @@ onMounted(() => {
         <ul class="position-absolute list-genres m-0 py-7 px-10 row">
           <template v-for="genre in genres" :key="genre.id">
             <li class="genre-item col-3 p-0 mb-3">
-              <router-link to="" class="w-100 text-decoration-none">
+              <router-link :to="'/the-loai/'+genre.name" class="w-100 text-decoration-none">
                 {{ genre.name }}
               </router-link>
             </li>
@@ -57,7 +57,7 @@ onMounted(() => {
         <ul class="position-absolute list-countries m-0 py-7 px-10 row">
           <template v-for="country in countries" :key="country.id">
             <li class="country-item col-3 p-0 mb-3">
-              <router-link to="" class="w-100 text-decoration-none">
+              <router-link :to="'/quoc-gia/' + country.name" class="w-100 text-decoration-none">
                 {{ country.name }}
               </router-link>
             </li>
@@ -65,22 +65,22 @@ onMounted(() => {
         </ul>
       </li>
       <li class="py-2 px-3">
-        <router-link to="/home" class="text-decoration-none font-weight-medium">
+        <router-link to="/danh-muc/Phim Mới" class="text-decoration-none font-weight-medium">
           Phim mới
         </router-link>
       </li>
       <li class="py-2 px-3">
-        <router-link to="/home" class="text-decoration-none font-weight-medium">
+        <router-link to="/danh-muc/Phim Bộ" class="text-decoration-none font-weight-medium">
           Phim bộ
         </router-link>
       </li>
       <li class="py-2 px-3">
-        <router-link to="/home" class="text-decoration-none font-weight-medium">
+        <router-link to="/danh-muc/Phim Lẻ" class="text-decoration-none font-weight-medium">
           Phim lẻ
         </router-link>
       </li>
       <li class="py-2 px-3">
-        <router-link to="/home" class="text-decoration-none font-weight-medium">
+        <router-link to="/danh-muc/Phim Chiếu Rạp" class="text-decoration-none font-weight-medium">
           Phim chiếu rạp
         </router-link>
       </li>
