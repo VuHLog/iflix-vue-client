@@ -5,6 +5,9 @@ import SignIn from "@pages/Signin.vue"
 import Home from "@pages/Home.vue"
 import WatchMovie from "@pages/WatchMovie.vue"
 import Filter from "@pages/Filter.vue"
+import UserInfo from "@pages/UserInfo.vue"
+import ChangePassword from "@pages/ChangePassword.vue"
+import Favorites from "@pages/Favorites.vue"
 
 
 const routes = [
@@ -37,6 +40,31 @@ const routes = [
         path: "/danh-muc/:categoryName",
         name: "Danh mục",
         component: Filter,
+      },
+      {
+        path: "/search",
+        name: "Tìm kiếm",
+        component: Filter,
+      },
+
+      //user
+      {
+        path: "/user/update-profile",
+        name: "Profile",
+        component: UserInfo,
+        requiresAuth: true,
+      },
+      {
+        path: "/user/doi-mat-khau",
+        name: "Đổi mật khẩu",
+        component: ChangePassword,
+        requiresAuth: true,
+      },
+      {
+        path: "/user/tu-phim",
+        name: "Tủ Phim",
+        component: Favorites,
+        requiresAuth: true,
       },
     ]
   },
