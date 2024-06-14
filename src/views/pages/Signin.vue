@@ -1,5 +1,5 @@
 <script setup>
-import { ref, getCurrentInstance } from "vue";
+import { ref, getCurrentInstance, onMounted } from "vue";
 import { useBaseStore } from "@/store/index.js";
 import { useRouter } from "vue-router";
 
@@ -16,6 +16,12 @@ const user = ref({
   password: "",
 });
 
+onMounted(()=>{
+  if(store.username !==""){
+    return router.push("/home")
+  }
+})
+
 async function signIn() {
   if (user.value.username === "" || user.value.password === "") {
     errorMsg.value = "Bạn phải nhập đầy đủ tài khoản mật khẩu!";
@@ -25,6 +31,7 @@ async function signIn() {
     .post("/auth/token", user.value)
     .then((res) => {
       localStorage.setItem("token", res.result.token);
+      store.isLoggedIn=true;
       router.push("/home");
     })
     .catch(() => {
@@ -49,6 +56,7 @@ async function signIn() {
           class="form-control p-3"
           type="password"
           placeholder="Mật khẩu"
+          autocomplete="on"
         />
 
         <div class="text-start text-red" v-if="errorMsg">
