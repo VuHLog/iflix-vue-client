@@ -1,13 +1,16 @@
 <script setup>
 import { onMounted, ref, getCurrentInstance, watch } from "vue";
 import { useBaseStore } from "@/store/index.js";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import SideBar from "@layouts/sidebar/SideBar.vue";
 import Breadcrumbs from "@layouts/Breadcrumbs.vue";
 import VCard from "@components/VCard.vue";
+import { inject } from "vue";
 
 const { proxy } = getCurrentInstance();
+const swal = inject("$swal");
 const route = useRoute();
+const router = useRouter();
 
 const rating = ref(); //rating
 
@@ -18,6 +21,7 @@ const nominatedfilms = ref([]); //phim de cu
 
 const movie = ref({});
 const slug = route.params.slugMovie;
+const user = ref("");
 onMounted(async () => {
   scrollToTop();
   await proxy.$api
@@ -32,12 +36,30 @@ onMounted(async () => {
       nominatedfilms.value = res.result;
     })
     .catch((error) => console.log(error));
+
+  await proxy.$api
+    .get("/api/users/myInfo")
+    .then((res) => {
+      user.value = res.result;
+    })
+    .catch((error) => console.log(error));
+
+  await proxy.$api
+    .get(
+      "/api/favorites?userId=" + user.value.id + "&movieId=" + movie.value.id
+    )
+    .then((res) => {
+      if (res.result) {
+        followed.value = true;
+      }
+    })
+    .catch((error) => console.log(error));
 });
 
 function scrollToTop() {
   window.scrollTo({
     top: 0,
-    behavior: "smooth"
+    behavior: "smooth",
   });
 }
 
@@ -54,6 +76,46 @@ function loadMovieContent() {
     document.getElementById("movie-content").innerHTML =
       movie.value.description;
   }, 0);
+}
+
+const followed = ref(false);
+
+async function followBtnClicked() {
+  if (!user.value) {
+    router.push("/sign-in");
+    return;
+  }
+
+  // true thi xoa , false thi them yeu thich
+  if (followed.value) {
+    await proxy.$api
+      .delete(
+        "/api/favorites?userId=" + user.value.id + "&movieId=" + movie.value.id,
+        {}
+      )
+      .then(() => {
+        swal.fire({
+          title: "Bỏ Theo dõi Thành Công!",
+          icon: "success",
+        });
+        followed.value = false;
+      })
+      .catch((error) => console.log(error));
+  } else {
+    await proxy.$api
+      .post("/api/favorites", {
+        movie: movie.value,
+        user: user.value,
+      })
+      .then(() => {
+        swal.fire({
+          title: "Theo dõi Thành Công!",
+          icon: "success",
+        });
+        followed.value = true;
+      })
+      .catch((error) => console.log(error));
+  }
 }
 </script>
 <template>
@@ -182,13 +244,20 @@ function loadMovieContent() {
                     class="rounded py-2 px-4"
                     color="#52525B"
                   >
-                    <router-link
+                    <div
                       class="text-decoration-none d-flex justify-center align-center font-medium text-white"
-                      to=""
+                      @click="followBtnClicked()"
                     >
-                      <font-awesome-icon :icon="['fas', 'plus']" />
+                      <font-awesome-icon
+                        v-if="followed"
+                        :icon="['fas', 'check']"
+                      />
+                      <font-awesome-icon
+                        v-if="!followed"
+                        :icon="['fas', 'plus']"
+                      />
                       <span>Theo Dõi</span>
-                    </router-link>
+                    </div>
                   </v-btn>
                 </div>
               </div>

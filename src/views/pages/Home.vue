@@ -109,7 +109,7 @@ async function loadSingleMovie() {
               </div>
               <div class="d-flex justify-center w-100 pt-2">
                 <router-link
-                  to=""
+                  to="/danh-muc/phim-bo"
                   class="rounded bg-brown text-decoration-none text-gray-200 py-1 px-2"
                 >
                   <span class="text-14">Xem thêm</span>

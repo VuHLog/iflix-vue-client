@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, getCurrentInstance, watch } from "vue";
-import {useRoute} from "vue-router"
+import { useRoute } from "vue-router";
 import SideBar from "@layouts/sidebar/SideBar.vue";
 import Breadcrumbs from "@layouts/Breadcrumbs.vue";
 import VCard from "@components/VCard.vue";
@@ -32,7 +32,7 @@ const moviesFiltered = ref([]);
 
 const name = ref([]);
 
-const title= ref("");
+const title = ref("");
 
 onMounted(async () => {
   await proxy.$api
@@ -63,31 +63,55 @@ onMounted(async () => {
     })
     .catch((error) => console.log(error));
 
-    handleParamsRoute();
-    loadData();
+  handleParamsRoute();
+  loadData();
 });
 
-// check nguoi dung dang o trang nao
-function handleParamsRoute(){
-    if(route.params.genreName){
-        let name = route.params.genreName;
-        genre.value = name;
-        title.value =name ;
-        return;
-    }
-    if(route.params.countryName){
-        let name = route.params.countryName;
-        country.value = name;
-        title.value =name ;
-        return;
-    }
-    if(route.params.categoryName){
-        let name = route.params.categoryName;
-        category.value = name;
-        title.value =name ;
-        return;
-    }
+// check nguoi dung dang o trang nao để thực hiện loadData
+function handleParamsRoute() {
+  if (route.query.searchText) {
+    let text = route.query.searchText;
+    name.value = text;
+    title.value = "từ khoá: " + text;
+    return;
+  }
+  if (route.params.genreName) {
+    let name = route.params.genreName;
+    genre.value = name;
+    title.value = name;
+    return;
+  }
+  if (route.params.countryName) {
+    let name = route.params.countryName;
+    country.value = name;
+    title.value = name;
+    return;
+  }
+  if (route.params.categoryName) {
+    let name = route.params.categoryName;
+    category.value = name;
+    title.value = name;
+    return;
+  }
 }
+
+function resetParams() {
+  name.value = "";
+  genre.value = "";
+  country.value = "";
+  category.value = "";
+  title.value = "";
+}
+
+// tải lại components khi path thay đổi
+watch(
+  () => route.fullPath,
+  () => {
+    resetParams();
+    handleParamsRoute();
+    loadData();
+  }
+);
 
 async function loadData() {
   await proxy.$api
