@@ -1,11 +1,13 @@
 <script setup>
 import { getCurrentInstance, computed, ref, watch, onMounted } from "vue";
 import { useBaseStore } from "@/store/index.js";
+import { useRouter } from "vue-router";
 import NavBar from "@layouts/navbar/Navbar.vue";
 import { jwtDecode } from "jwt-decode";
 
 const { proxy } = getCurrentInstance();
 const store = useBaseStore();
+const router = useRouter();
 
 const username = ref("");
 const avatarUrl = ref("");
@@ -20,11 +22,31 @@ const showUserMenu = ref(false);
 
 onMounted(() => {
   let token = localStorage.getItem("token");
+  decodedToken(token);
+});
+
+function decodedToken(token) {
   if (token) {
     const decoded = jwtDecode(token);
     username.value = decoded.sub;
     avatarUrl.value = decoded.avatarUrl;
     name.value = decoded.name;
+  } else {
+    username.value = "";
+    avatarUrl.value = "";
+    name.value = "";
+  }
+}
+
+const isLoggedIn = computed(() => store.isLoggedIn);
+
+//isLoggedIn thay đổi thì cập nhật hiển thị thông tin người dùng
+watch(isLoggedIn, (newVal) => {
+  if (newVal) {
+    const token = localStorage.getItem("token");
+    decodedToken(token);
+  } else {
+    decodedToken(null);
   }
 });
 
@@ -43,6 +65,21 @@ watch(searchText, () => {
     loadData();
   }
 });
+
+async function logOut() {
+  showUserMenu.value = false;
+  const token = localStorage.getItem("token");
+  if (token) {
+    await proxy.$api
+      .post("/auth/logout", token)
+      .then(() => {
+        localStorage.removeItem("token");
+        decodedToken(null);
+        router.push("/sign-in");
+      })
+      .catch();
+  }
+}
 </script>
 
 <template>
@@ -74,7 +111,10 @@ watch(searchText, () => {
         >
           <ul class="list-item pt-2 m-0" v-if="moviesSearched.length !== 0">
             <template v-for="movie in moviesSearched" :key="movie.id">
-              <router-link to="" class="d-block text-decoration-none pb-2 border-b-custom">
+              <router-link
+                to=""
+                class="d-block text-decoration-none pb-2 border-b-custom"
+              >
                 <li class="item d-flex align-item mb-2">
                   <div>
                     <img class="image-poster" :src="movie.imageUrl" alt="" />
@@ -99,17 +139,20 @@ watch(searchText, () => {
               </router-link>
             </template>
           </ul>
-          <router-link to="" class="text-decoration-none">
+          <router-link
+            :to="'/search?searchText=' + searchText"
+            class="text-decoration-none"
+          >
             <p class="m-0 text-brown text-center p-1">
               Xem tất cả kết quả "{{ searchText }}"
             </p>
           </router-link>
         </div>
       </div>
-      <router-link to="/sign-in" v-if="username===''">
+      <router-link to="/sign-in" v-if="username === ''">
         <v-btn class="rounded-lg" color="#3f3f46">Đăng nhập </v-btn>
       </router-link>
-      <div class="account position-relative" v-if="username !==''">
+      <div class="account position-relative" v-if="username !== ''">
         <div
           class="avatar d-flex align-center cursor-pointer"
           @click="showUserMenu = !showUserMenu"
@@ -123,31 +166,36 @@ watch(searchText, () => {
         <transition>
           <div
             class="position-absolute user-dropdown rounded-lg"
-            v-if="username !== '' && showUserMenu"
+            v-if="showUserMenu"
           >
             <div class="border-b-custom py-2 px-3 font-weight-bold">
               {{ name }}
             </div>
             <ul class="user-menu p-0 m-0 py-2 cursor-pointer">
-              <li class="py-2 px-3 text-center">
-                <router-link class="text-decoration-none" to=""
+              <li class="py-2 px-3 text-start hover-bg-zinc-700 user-none">
+                <router-link
+                  class="text-decoration-none"
+                  to="/user/update-profile"
                   >Thông tin</router-link
                 >
               </li>
-              <li class="py-2 px-3 text-center">
-                <router-link class="text-decoration-none" to=""
+              <li class="py-2 px-3 text-start hover-bg-zinc-700 user-none">
+                <router-link class="text-decoration-none" to="/user/tu-phim"
                   >Tủ phim</router-link
                 >
               </li>
-              <li class="py-2 px-3 text-center">
-                <router-link class="text-decoration-none" to=""
+              <li class="py-2 px-3 text-start hover-bg-zinc-700 user-none">
+                <router-link
+                  class="text-decoration-none"
+                  to="/user/doi-mat-khau"
                   >Đổi mật khẩu</router-link
                 >
               </li>
-              <li class="py-2 px-3 text-center">
-                <router-link class="text-decoration-none" to=""
-                  >Đăng xuất</router-link
-                >
+              <li
+                class="py-2 px-3 text-start hover-bg-zinc-700 user-none"
+                @click="logOut()"
+              >
+                Đăng xuất
               </li>
             </ul>
           </div>

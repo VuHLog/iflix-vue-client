@@ -37,12 +37,20 @@ body {
   background-color: rgb(38, 38, 38);
 }
 
+.bg-gray-50 {
+  background-color: rgb(249, 250, 251 );
+}
+
 .bg-181818 {
   background-color: #181818;
 }
 
 .bg-222222 {
   background-color: #222222;
+}
+
+.bg-zinc-400 {
+  background-color: rgb(161, 161, 170)
 }
 
 .bg-zinc-700 {
@@ -81,6 +89,10 @@ body {
 // .text-primary{
 //     color
 // }
+
+.text-zinc-300{
+  color: rgb(212, 212, 216 );
+}
 
 .text-gray {
   color: #e5e7eb;
@@ -213,9 +225,6 @@ body {
   text-transform: uppercase;
 }
 
-.hover:hover {
-  color: rgb(217, 138, 94);
-}
 
 .text-trending {
   border-color: #f39c12;
@@ -230,6 +239,10 @@ body {
 
 .transition-all-ease {
   transition: all 0.3 ease;
+}
+
+.hover:hover {
+  color: rgb(217, 138, 94);
 }
 
 .hover-opacity-80:hover {
@@ -248,11 +261,19 @@ body {
   background-color: rgb(63, 63, 70);
 }
 
+.hover-bg-050708:hover {
+  background-color: rgb(05, 07, 08);
+}
+
 .z-30 {
   z-index: 30;
 }
 
 .outline-none {
+  outline: none;
+}
+
+.focus-outline-none:focus{
   outline: none;
 }
 

@@ -40,7 +40,7 @@ onMounted(() => {
         <span
           >Thể loại <font-awesome-icon :icon="['fas', 'angle-down']"
         /></span>
-        <ul class="position-absolute list-genres m-0 py-7 px-10 row">
+        <ul class="position-absolute list-genres m-0 py-7 px-10 row z-30">
           <template v-for="genre in genres" :key="genre.id">
             <li class="genre-item col-3 p-0 mb-3">
               <router-link :to="'/the-loai/'+genre.name" class="w-100 text-decoration-none">
@@ -54,7 +54,7 @@ onMounted(() => {
         <span
           >Quốc gia <font-awesome-icon :icon="['fas', 'angle-down']"
         /></span>
-        <ul class="position-absolute list-countries m-0 py-7 px-10 row">
+        <ul class="position-absolute list-countries m-0 py-7 px-10 row z-30">
           <template v-for="country in countries" :key="country.id">
             <li class="country-item col-3 p-0 mb-3">
               <router-link :to="'/quoc-gia/' + country.name" class="w-100 text-decoration-none">
