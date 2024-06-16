@@ -74,7 +74,7 @@ async function updateUser() {
 
 <template>
   <section>
-    <Breadcrumbs class="mt-2"></Breadcrumbs>
+    <Breadcrumbs class="mt-2" currentPage="Cập Nhật Thông Tin"></Breadcrumbs>
     <div class="pa-10 d-flex align-center justify-center">
       <div
         class="d-flex flex-column w-50 main-form pa-4 my-4 rounded bg-zinc-800"

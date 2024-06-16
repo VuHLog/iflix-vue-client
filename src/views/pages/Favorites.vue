@@ -26,7 +26,7 @@ onMounted(async()=>{
 <template>
   <main class="px-4">
     <div class="pt-2">
-      <Breadcrumbs></Breadcrumbs>
+      <Breadcrumbs currentPage="Tủ Phim"></Breadcrumbs>
       <h3
         class="font-weight-regular text-gray-200 uppercase text-center py-2 border-b-custom"
       >

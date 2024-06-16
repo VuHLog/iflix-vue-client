@@ -20,12 +20,23 @@ store.showReleaseYear = false;
 const nominatedfilms = ref([]); //phim de cu
 
 const movie = ref({});
-const slug = route.params.slugMovie;
+const slug = ref(route.params.slugMovie);
 const user = ref("");
 onMounted(async () => {
   scrollToTop();
+  loadData();
+});
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
+
+async function loadData() {
   await proxy.$api
-    .get("/api/movies/movieBySlug/" + slug)
+    .get("/api/movies/movieBySlug/" + slug.value)
     .then((res) => {
       movie.value = res.result;
     })
@@ -37,39 +48,43 @@ onMounted(async () => {
     })
     .catch((error) => console.log(error));
 
-  await proxy.$api
-    .get("/api/users/myInfo")
-    .then((res) => {
-      user.value = res.result;
-    })
-    .catch((error) => console.log(error));
+  if (localStorage.getItem("token")) {
+    await proxy.$api
+      .get("/api/users/myInfo")
+      .then((res) => {
+        user.value = res.result;
+      })
+      .catch((error) => console.log(error));
 
-  await proxy.$api
-    .get(
-      "/api/favorites?userId=" + user.value.id + "&movieId=" + movie.value.id
-    )
-    .then((res) => {
-      if (res.result) {
-        followed.value = true;
-      }
-    })
-    .catch((error) => console.log(error));
-});
-
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
+    await proxy.$api
+      .get(
+        "/api/favorites?userId=" + user.value.id + "&movieId=" + movie.value.id
+      )
+      .then((res) => {
+        if (res.result) {
+          followed.value = true;
+        }
+      })
+      .catch((error) => console.log(error));
+  }
 }
 
+// load lại data trong component khi path thay đổi
+watch(
+  () => route.fullPath,
+  () => {
+    slug.value = route.params.slugMovie;
+    loadData();
+  }
+);
+
+//xử lý xem danh sách tập hay xem thông tin phim
 const isShowListEpisode = ref(true);
 watch(isShowListEpisode, () => {
-  if (isShowListEpisode.value) {
-    loadEpisodesCurrent();
-  } else loadMovieContent();
+  if (!isShowListEpisode.value) {
+    loadMovieContent();
+  }
 });
-function loadEpisodesCurrent() {}
 
 function loadMovieContent() {
   setTimeout(() => {
@@ -78,6 +93,7 @@ function loadMovieContent() {
   }, 0);
 }
 
+// xử lý follow
 const followed = ref(false);
 
 async function followBtnClicked() {
@@ -122,7 +138,7 @@ async function followBtnClicked() {
   <div class="mt-2">
     <div class="pt-2 d-flex flex-wrap gr-6">
       <section class="col-9 pr-3">
-        <Breadcrumbs></Breadcrumbs>
+        <Breadcrumbs :currentPage="movie.name"></Breadcrumbs>
         <div class="overflow-hidden bg-181818 mt-2">
           <div class="py-2">
             <div
@@ -233,7 +249,7 @@ async function followBtnClicked() {
                   >
                     <router-link
                       class="text-decoration-none d-flex justify-center align-center font-medium text-white"
-                      :to="'/xem-phim/'+slug+ '/1'"
+                      :to="'/xem-phim/' + slug + '/1'"
                     >
                       <font-awesome-icon :icon="['fas', 'play']" />
                       <span>Xem Ngay</span>
@@ -302,7 +318,7 @@ async function followBtnClicked() {
                           )"
                         >
                           <router-link
-                            :to="'/xem-phim/'+slug+'/' + episodeNumber"
+                            :to="'/xem-phim/' + slug + '/' + episodeNumber"
                             class="text-decoration-none text-gray-300 text-12 text-center font-medium px-3 py-2 mb-2 rounded-sm bg-zinc-700 hover-bg-neutral-600"
                           >
                             Tập {{ episodeNumber }}

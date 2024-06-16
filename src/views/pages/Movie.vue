@@ -7,7 +7,6 @@ import Breadcrumbs from "@layouts/Breadcrumbs.vue";
 
 const { proxy } = getCurrentInstance();
 const route = useRoute();
-const router = useRouter();
 
 const store = useBaseStore();
 const rating = ref(); //rating
@@ -15,7 +14,6 @@ const rating = ref(); //rating
 const movie = ref({});
 const slug = route.params.slugMovie;
 const episodeCurrent = ref(route.params.episodeNumber);
-const user = ref({});
 const episode = ref([]);
 onMounted(async () => {
   scrollToTop();
@@ -59,7 +57,7 @@ function loadMovieContent() {
   }, 0);
 }
 
-// tải lại components khi path thay đổi
+// load lại data trong component khi path thay đổi
 watch(
   () => route.fullPath,
   () => {
@@ -72,7 +70,7 @@ watch(
   <div class="mt-2">
     <div class="pt-2 d-flex flex-wrap gr-6">
       <section class="col-9 pr-3">
-        <breadcrumbs></breadcrumbs>
+        <breadcrumbs :currentPage="'Tập' + episodeCurrent" :previusPage="Array.of({name: movie.name, link: route.fullPath.slice(0,route.fullPath.length-2)})"></breadcrumbs>
         <div class="bg-171717 border-b-custom border-zinc-800 pb-2">
           <div class="ma-auto w-100 my-2">
             <template v-for="link in episode" key="link.id">

@@ -79,10 +79,10 @@ const routes = [
     name: "Sign in",
     component: SignIn,
   },
-  // {
-  //   path: "/:pathMatch(.*)*",
-  //   component: () => import("../pages/[...all].vue"),
-  // },
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/home",
+  },
 ];
 
 const router = createRouter({

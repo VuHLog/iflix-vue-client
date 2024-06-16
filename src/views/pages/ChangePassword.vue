@@ -60,7 +60,7 @@ async function changePassword() {
 </script>
 <template>
   <section>
-    <Breadcrumbs class="mt-2"></Breadcrumbs>
+    <Breadcrumbs class="mt-2" currentPage="Đổi Mật Khẩu"></Breadcrumbs>
 
     <div class="pa-10 d-flex align-center justify-center">
     <div

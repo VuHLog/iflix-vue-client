@@ -103,7 +103,7 @@ function resetParams() {
   title.value = "";
 }
 
-// tải lại components khi path thay đổi
+// load lại data trong component khi path thay đổi
 watch(
   () => route.fullPath,
   () => {
@@ -158,7 +158,7 @@ watch(sortingCriteria, () => {
 <template>
   <main class="px-4">
     <div class="pt-2">
-      <Breadcrumbs></Breadcrumbs>
+      <Breadcrumbs :currentPage="title"></Breadcrumbs>
       <h3
         class="font-weight-regular text-gray-200 uppercase text-center py-2 border-b-custom"
       >
