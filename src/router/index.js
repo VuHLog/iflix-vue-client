@@ -4,6 +4,7 @@ import { useBaseStore } from "@/store/index.js";
 import SignIn from "@pages/Signin.vue"
 import Home from "@pages/Home.vue"
 import WatchMovie from "@pages/WatchMovie.vue"
+import Movie from "@pages/Movie.vue"
 import Filter from "@pages/Filter.vue"
 import UserInfo from "@pages/UserInfo.vue"
 import ChangePassword from "@pages/ChangePassword.vue"
@@ -25,6 +26,11 @@ const routes = [
         path: "/xem-phim/:slugMovie",
         name: "Xem Phim",
         component: WatchMovie,
+      },
+      {
+        path: "/xem-phim/:slugMovie/:episodeNumber",
+        name: "",
+        component: Movie,
       },
       {
         path: "/the-loai/:genreName",

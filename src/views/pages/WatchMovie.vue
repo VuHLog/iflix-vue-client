@@ -121,7 +121,7 @@ async function followBtnClicked() {
 <template>
   <div class="mt-2">
     <div class="pt-2 d-flex flex-wrap gr-6">
-      <section class="col-9">
+      <section class="col-9 pr-3">
         <Breadcrumbs></Breadcrumbs>
         <div class="overflow-hidden bg-181818 mt-2">
           <div class="py-2">
@@ -233,7 +233,7 @@ async function followBtnClicked() {
                   >
                     <router-link
                       class="text-decoration-none d-flex justify-center align-center font-medium text-white"
-                      to=""
+                      :to="'/xem-phim/'+slug+ '/1'"
                     >
                       <font-awesome-icon :icon="['fas', 'play']" />
                       <span>Xem Ngay</span>
@@ -302,7 +302,7 @@ async function followBtnClicked() {
                           )"
                         >
                           <router-link
-                            to=""
+                            :to="'/xem-phim/'+slug+'/' + episodeNumber"
                             class="text-decoration-none text-gray-300 text-12 text-center font-medium px-3 py-2 mb-2 rounded-sm bg-zinc-700 hover-bg-neutral-600"
                           >
                             Tập {{ episodeNumber }}
