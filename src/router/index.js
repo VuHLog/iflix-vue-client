@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { jwtDecode } from "jwt-decode";
 import { useBaseStore } from "@/store/index.js";
 import SignIn from "@pages/Signin.vue"
+import SignUp from "@pages/SignUp.vue"
 import Home from "@pages/Home.vue"
 import WatchMovie from "@pages/WatchMovie.vue"
 import Movie from "@pages/Movie.vue"
@@ -78,6 +79,11 @@ const routes = [
     path: "/sign-in",
     name: "Sign in",
     component: SignIn,
+  },
+  {
+    path: "/sign-up",
+    name: "Sign up",
+    component: SignUp,
   },
   {
     path: "/:pathMatch(.*)*",

@@ -103,16 +103,6 @@ function resetParams() {
   title.value = "";
 }
 
-// load lại data trong component khi path thay đổi
-watch(
-  () => route.fullPath,
-  () => {
-    resetParams();
-    handleParamsRoute();
-    loadData();
-  }
-);
-
 async function loadData() {
   await proxy.$api
     .get(
@@ -142,6 +132,17 @@ async function loadData() {
     .catch((error) => console.log(error));
 }
 
+// load lại data trong component khi path thay đổi
+watch(
+  () => route.fullPath,
+  () => {
+    resetParams();
+    handleParamsRoute();
+    loadData();
+  }
+);
+
+
 async function btnClicked() {
   await loadData();
 }
@@ -153,6 +154,11 @@ watch(sortingCriteria, () => {
     field.value = "numView";
   } else field.value = "releaseYear";
 });
+
+watch(pageNumber, () => {
+  loadData();
+});
+
 </script>
 
 <template>

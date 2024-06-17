@@ -21,6 +21,8 @@ onMounted(async () => {
     .get("/api/movies/movieBySlug/" + slug)
     .then((res) => {
       movie.value = res.result;
+      movie.value.genres = movie.value.movie_genres.map(mg => mg.genre);
+      movie.value.actors = movie.value.movie_actors.map(ma => ma.actor);
     })
     .catch((error) => console.log(error));
   loadMovieContent();
@@ -39,6 +41,15 @@ async function loadData() {
     )
     .then((res) => {
       episode.value = res.result;
+      movie.value.numView++;
+    })
+    .catch((error) => console.log(error));
+
+    //cập nhật view cho movie
+  await proxy.$api
+    .put("/api/movies/" + movie.value.id, movie.value)
+    .then((res) => {
+        console.log("tăng view!");
     })
     .catch((error) => console.log(error));
 }
@@ -70,7 +81,15 @@ watch(
   <div class="mt-2">
     <div class="pt-2 d-flex flex-wrap gr-6">
       <section class="col-9 pr-3">
-        <breadcrumbs :currentPage="'Tập' + episodeCurrent" :previusPage="Array.of({name: movie.name, link: route.fullPath.slice(0,route.fullPath.length-2)})"></breadcrumbs>
+        <breadcrumbs
+          :currentPage="'Tập' + episodeCurrent"
+          :previusPage="
+            Array.of({
+              name: movie.name,
+              link: route.fullPath.slice(0, route.fullPath.length - 2),
+            })
+          "
+        ></breadcrumbs>
         <div class="bg-171717 border-b-custom border-zinc-800 pb-2">
           <div class="ma-auto w-100 my-2">
             <template v-for="link in episode" key="link.id">
@@ -82,6 +101,7 @@ watch(
                   height="450"
                   width="100%"
                   scrolling="0"
+                  loading="lazy"
                 ></iframe>
               </p>
             </template>
@@ -104,8 +124,8 @@ watch(
               >
                 <router-link
                   :to="'/xem-phim' + movie.slug + '/' + episodeNumber"
-                  class="text-decoration-none text-gray-300 text-12 text-center font-medium px-3 py-2 mb-2 rounded-sm bg-zinc-700 hover-bg-neutral-600"
-                  :class="{ 'bg-A3765D': episodeCurrent === episodeNumber }"
+                  class="text-decoration-none text-gray-300 text-12 text-center font-medium px-3 py-2 mb-2 rounded-sm "
+                  :class="(episodeCurrent == episodeNumber)?'bg-A3765D':'bg-zinc-700 hover-bg-neutral-600'"
                 >
                   Tập {{ episodeNumber }}
                 </router-link>

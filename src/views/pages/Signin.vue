@@ -24,6 +24,7 @@ onMounted(() => {
 });
 
 async function signIn() {
+  errorMsg.value ="";
   if (user.value.username === "" || user.value.password === "") {
     errorMsg.value = "Bạn phải nhập đầy đủ tài khoản mật khẩu!";
     return;
@@ -84,7 +85,7 @@ async function signIn() {
         </form>
         <p>
           Bạn chưa có tài khoản?
-          <router-link to="/signup">
+          <router-link to="/sign-up">
             <strong>Đăng ký</strong>
           </router-link>
         </p>
