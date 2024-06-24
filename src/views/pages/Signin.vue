@@ -24,7 +24,7 @@ onMounted(() => {
 });
 
 async function signIn() {
-  errorMsg.value ="";
+  errorMsg.value = "";
   if (user.value.username === "" || user.value.password === "") {
     errorMsg.value = "Bạn phải nhập đầy đủ tài khoản mật khẩu!";
     return;
@@ -39,6 +39,17 @@ async function signIn() {
     .catch(() => {
       errorMsg.value = "Tài khoản, mật khẩu không chính xác!";
     });
+}
+
+const callback =async (response) => {
+   //Gửi thông tin này đến máy chủ của bạn để xử lý đăng nhập
+   const res = await proxy.$api.post("/auth/google", {
+      token: response.credential,
+    });
+    console.log("token ",res.result.token);
+    localStorage.setItem("token", res.result.token);
+    store.isLoggedIn = true;
+    router.push("/home");
 }
 </script>
 
@@ -83,6 +94,14 @@ async function signIn() {
             Đăng nhập
           </v-btn>
         </form>
+        <div class="d-flex align-center">
+          <div class="p__MPF"></div>
+          <div class="px-3">Hoặc</div>
+          <div class="p__MPF"></div>
+        </div>
+
+        <GoogleLogin class="w-100 d-flex justify-center my-4" :callback="callback"/>
+
         <p>
           Bạn chưa có tài khoản?
           <router-link to="/sign-up">
